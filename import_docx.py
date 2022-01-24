@@ -1,6 +1,7 @@
 from docx import Document
 import re
 import string
+import nltk
 
 # import numpy
 import numpy as np
@@ -15,13 +16,19 @@ par_array = []
 
 par = dokumen.paragraphs
 
+tokenize = []
+
 for para in par:
     text=str(para.text.lower())
     remove_angka = re.sub(r"\d+", "", text)
     remove_punctuation = remove_angka.translate(str.maketrans("","",string.punctuation))
-    par_array.append(remove_punctuation.split())
+    tokens = nltk.tokenize.word_tokenize(remove_punctuation)
+    freq_tokens = nltk.FreqDist(tokens)
+    if len(tokens) > 0:
+        tokenize.append(freq_tokens.most_common())
+    
+print(tokenize)
 
-print(par_array)
 
 # tokenize = []
 # for i in par_array:

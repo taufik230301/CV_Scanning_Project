@@ -12,35 +12,59 @@ from nltk.probability import FreqDist
 
 dokumen = Document('CV.docx')
 
+array_keyword = ["html", "postgresql", "design", "indonesia", "javascript"]
+
 par_array = []
 
 par = dokumen.paragraphs
 
 tokenize = []
 
+key_word = []
+for x in range(len(array_keyword)):
+    text = str(array_keyword[x].lower())
+    remove_angka = re.sub(r"\d+", "", text)
+    remove_punctuation = remove_angka.translate(str.maketrans("","",string.punctuation))
+    lowercase_sentence = ''.join(remove_angka.split())
+    
+    key_word.append(lowercase_sentence)
+print(key_word)
+
+
 for para in par:
     text=str(para.text.lower())
     remove_angka = re.sub(r"\d+", "", text)
     remove_punctuation = remove_angka.translate(str.maketrans("","",string.punctuation))
-    tokens = nltk.tokenize.word_tokenize(remove_punctuation)
-    freq_tokens = nltk.FreqDist(tokens)
+    lowercase_sentence = remove_punctuation.strip()
+    lowercase_sentence = re.sub('\s+',' ',lowercase_sentence)
+    tokens = nltk.tokenize.word_tokenize(lowercase_sentence)
+
     if len(tokens) > 0:
-        tokenize.append(freq_tokens.most_common())
+        tokenize.append(tokens)
     
-print(tokenize)
 
 
-# tokenize = []
-# for i in par_array:
-#     if len(i) > 0:
-#         tokenize.append(i)
 
-# list_par = []
-# for i in range(len(tokenize)):
-#     for a in range(len(tokenize[i])):
-#         list_par.append(tokenize[i][a])
+list_par = []
+for i in range(len(tokenize)):
+    for a in range(len(tokenize[i])):
+        if tokenize[i][a] not in list_par:
+            list_par.append(tokenize[i][a])
 
-# print(list_par)
+
+count = 0
+for x in range(len(key_word)):
+    for y in range(len(list_par)):
+        if key_word[x] == list_par[y]:
+            count += 1
+
+
+result = count / len(array_keyword) * 100
+print("Kencocokan kandidiat dengan key word yang anda cari")
+print(str(int(result)) + "%")
+print("Data di CV")
+
+
 
 
 

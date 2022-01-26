@@ -21,5 +21,11 @@ remove_punctuation_sentence = tokenize_sentence.translate(str.maketrans("","",st
 
 # remove white space
 whitespace_remove_sentence = remove_punctuation_sentence.strip()
-
+print("Setelah meremove whitespace")
+print(" ")
 print(whitespace_remove_sentence)
+print("_________")
+multiple_whitespace_sentence = re.sub('\s+',' ',whitespace_remove_sentence)
+print("Setelah meremove multiple whitespace")
+print(" ")
+print(multiple_whitespace_sentence)
